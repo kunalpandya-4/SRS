@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Investment Thesis & Engagement Module – Detailed SRS</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #ffffff;
+      --accent: #2563eb;
+      --muted: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 32px;
+      background: #e5e7eb;
+      color: #0f172a;
+      display: flex;
+      justify-content: center;
+    }
+
+    .page {
+      max-width: 1100px;
+      width: 100%;
+      background: var(--card);
+      border-radius: 18px;
+      padding: 40px 40px 48px;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: 28px;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    .subtitle {
+      margin: 0 0 28px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    h2 {
+      margin-top: 32px;
+      margin-bottom: 12px;
+      font-size: 21px;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 6px;
+      color: #1e293b;
+    }
+
+    h3 {
+      margin-top: 20px;
+      margin-bottom: 8px;
+      font-size: 17px;
+      color: #334155;
+    }
+
+    p {
+      margin: 6px 0 12px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    ul {
+      margin: 6px 0 12px 20px;
+      padding: 0;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    code {
+      font-family: "SFMono-Regular", ui-monospace, Menlo, Monaco, Consolas,
+        "Liberation Mono", "Courier New", monospace;
+      font-size: 13px;
+      background: #f1f5f9;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #be123c;
+    }
+
+    .tagline {
+      background: #eff6ff;
+      border-left: 4px solid var(--accent);
+      padding: 14px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .pill {
+      font-size: 12px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #f1f5f9;
+      color: #0f172a;
+      border: 1px solid #cbd5e1;
+    }
+
+    .api-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 13px;
+    }
+
+    .api-table th,
+    .api-table td {
+      border: 1px solid #e2e8f0;
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .api-table th {
+      background: #f8fafc;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .small {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* DIAGRAM STYLES */
+    .diagram-container {
+      margin: 24px 0;
+      padding: 24px;
+      background: #f8fafc;
+      border-radius: 12px;
+      border: 2px solid #e2e8f0;
+    }
+
+    .diagram-title {
+      text-align: center;
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: #334155;
+    }
+
+    .flow-diagram {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+    }
+
+    .flow-row {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      width: 100%;
+      position: relative;
+    }
+
+    .flow-box {
+      border: 2px solid #1e293b;
+      border-radius: 16px;
+      padding: 20px 24px;
+      text-align: center;
+      font-size: 14px;
+      min-width: 280px;
+      max-width: 380px;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+    }
+
+    .flow-box-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+
+    .flow-box ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .flow-box ul li::before {
+      content: "• ";
+      margin-right: 4px;
+    }
+
+    .flow-box-subtitle {
+      font-size: 13px;
+      margin: 0;
+      color: #475569;
+    }
+
+    /* Color coding */
+    .box-home {
+      background: #dbeafe;
+      border-color: #3b82f6;
+    }
+
+    .box-list {
+      background: #d1fae5;
+      border-color: #10b981;
+    }
+
+    .box-detail {
+      background: #e9d5ff;
+      border-color: #a855f7;
+    }
+
+    .box-comments {
+      background: #fef3c7;
+      border-color: #f59e0b;
+    }
+
+    .box-takeaways {
+      background: #fed7aa;
+      border-color: #ea580c;
+    }
+
+    .box-performance {
+      background: #ccfbf1;
+      border-color: #14b8a6;
+    }
+
+    /* Arrows */
+    .arrow-down {
+      width: 0;
+      height: 0;
+      border-left: 12px solid transparent;
+      border-right: 12px solid transparent;
+      border-top: 16px solid #475569;
+      margin: -8px auto;
+    }
+
+    .arrow-right {
+      width: 0;
+      height: 0;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-left: 14px solid #475569;
+      position: absolute;
+      top: 50%;
+      right: -19px;
+      transform: translateY(-50%);
+    }
+
+    @media (max-width: 900px) {
+      body {
+        padding: 16px;
+      }
+      .page {
+        padding: 24px 20px 32px;
+      }
+      .flow-box {
+        min-width: 100%;
+        max-width: 100%;
+      }
+      .flow-row {
+        flex-direction: column;
+        align-items: center;
+      }
+      .arrow-right {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1>Investment Thesis &amp; Engagement Module</h1>
+    <p class="subtitle">Detailed SRS (Full Scope) – Developer-Ready Specification</p>
+
+    <div class="tagline">
+      <strong>Purpose:</strong> This document defines the functional, business,
+      and technical requirements for the Investment Thesis &amp; Engagement
+      module. It is intended as a developer‑ready handoff with enough clarity to
+      build without ambiguity.
+    </div>
+
+    <h2>0. Overview &amp; Technology Stack</h2>
+    <div class="pill-row">
+      <span class="pill"><strong>Backend:</strong> Node.js (REST APIs)</span>
+      <span class="pill"><strong>Mobile App:</strong> Flutter</span>
+      <span class="pill"><strong>Module Type:</strong> Core content &amp; engagement module</span>
+      <span class="pill"><strong>Stage:</strong> POC → Full Product</span>
+    </div>
+
+    <h2>1. Actors / User Roles</h2>
+    <ul>
+     
+      <li>
+        <strong>Normal Investor</strong> – Can read theses, post comments, and answer
+        questions.
+      </li>
+      <li>
+        <strong>Expert</strong> – Investor with expert badge; can answer
+        questions with elevated authority.
+      </li>
+      <li>
+        <strong>Content Creator</strong> – Can create, edit, and delete their own
+        theses.
+      </li>
+    </ul>
+
+    <h2>2. Module Functionality</h2>
+    <p>The module provides the following high‑level capabilities:</p>
+    <ul>
+      <li>AI Market Summary feed displaying today's market outlook.</li>
+      <li>Thesis recommendation feed personalized to user interests.</li>
+      <li>Thesis detail view with rich content (articles, charts, images).</li>
+      <li>Key Takeaways overlay summarizing the core thesis.</li>
+      <li>Performance tracking overlay for assets linked to a thesis.</li>
+      <li>Community comments &amp; Q&amp;A section for discussion.</li>
+      <li>Engagement metrics (views, upvotes, comment count).</li>
+      <li>Role‑based actions depending on user type (guest, investor, expert, creator).</li>
+    </ul>
+
+    <h2>3. Screen Specifications</h2>
+
+    <h3>3.1 Home Screen</h3>
+    <p><strong>Purpose:</strong> Discovery &amp; entry point into the module.</p>
+
+    <p><strong>AI Summary Fields:</strong></p>
+    <ul>
+      <li><code>title</code>: string</li>
+      <li><code>summary</code>: text (200-300 chars)</li>
+      <li><code>trend</code>: enum <code>UP</code> / <code>DOWN</code> / <code>NEUTRAL</code></li>
+      <li><code>lastUpdated</code>: datetime</li>
+    </ul>
+
+    <p><strong>Thesis Card Fields:</strong></p>
+    <ul>
+      <li><code>thesisId</code>: unique identifier</li>
+      <li><code>title</code>: string</li>
+      <li><code>authorName</code>: string</li>
+      <li><code>tag</code>: string (e.g., "Stocks", "Bankruptcy")</li>
+      <li><code>shortSnippet</code>: text (100 chars)</li>
+      <li><code>thumbnailUrl</code>: image URL</li>
+      <li><code>viewsCount</code>: integer</li>
+    </ul>
+
+    <p><strong>Actions:</strong></p>
+    <ul>
+      <li>Tap thesis card → navigate to Thesis Detail screen.</li>
+      <li>Tap market question → navigate to Q&amp;A view.</li>
+      <li>Pull to refresh → reload AI summary + theses list.</li>
+    </ul>
+
+    <p><strong>Rules:</strong></p>
+    <ul>
+      <li>Show top 10 theses by default.</li>
+      <li>Sort by a combination of relevance (user interests) and recency.</li>
+    </ul>
+
+    <h3>3.2 Thesis Detail Screen</h3>
+
+    <p><strong>Fields:</strong></p>
+    <ul>
+      <li><code>thesisId</code>: unique identifier</li>
+      <li><code>title</code>: string</li>
+      <li>
+        <code>author</code>: object <code>{ id, name, role }</code>
+      </li>
+      <li><code>createdAt</code>: datetime</li>
+      <li><code>tags</code>: array of strings</li>
+      <li><code>content</code>: rich text (paragraphs, headings, lists, inline images)</li>
+      <li><code>images</code>: array of image URLs</li>
+      <li><code>takeaways</code>: array of bullet points (short summary)</li>
+      <li><code>recommendedAssets</code>: array of asset symbols or instruments</li>
+    </ul>
+
+    <p><strong>Actions:</strong></p>
+    <ul>
+      <li>Tap "Key Takeaways" button → open Key Takeaways overlay.</li>
+      <li>Tap "Performance" button → open Performance overlay for linked assets.</li>
+      <li>Scroll to Community Q&amp;A section → read and post comments.</li>
+    </ul>
+
+    <p><strong>Rules:</strong></p>
+    <ul>
+      <li>Login is required to post comments.</li>
+      <li>The content creator can edit or delete their own thesis.</li>
+      <li>Expert users can mark their answers with an "Expert" badge.</li>
+    </ul>
+
+    <h3>3.3 Key Takeaways Overlay</h3>
+    <ul>
+      <li>Displays a bullet‑point summary (3-5 key points) of the thesis.</li>
+      <li>Read‑only interface; no editing from this overlay.</li>
+      <li>Close button returns user to Thesis Detail screen.</li>
+    </ul>
+
+    <h3>3.4 Performance Overlay</h3>
+
+    <p><strong>Fields:</strong></p>
+    <ul>
+      <li><code>assetSymbol</code>: stock ticker or asset identifier</li>
+      <li><code>timeSeries</code>: array of price data over time</li>
+      <li><code>benchmarkSeries</code>: comparison index/benchmark data</li>
+    </ul>
+
+    <p><strong>Rules:</strong></p>
+    <ul>
+      <li>Overlay is visible only if performance data exists for the asset.</li>
+      <li>Chart displays asset performance vs. benchmark over a selected time period.</li>
+    </ul>
+
+    <h3>3.5 Community Q&amp;A / Comments</h3>
+
+    <p><strong>Fields:</strong></p>
+    <ul>
+      <li><code>commentId</code>: unique identifier</li>
+      <li>
+        <code>user</code>: object <code>{ name, role }</code> (e.g., "Expert", "Investor")
+      </li>
+      <li><code>text</code>: string (max 500 chars)</li>
+      <li><code>createdAt</code>: datetime</li>
+    </ul>
+
+    <p><strong>Rules:</strong></p>
+    <ul>
+      <li>Maximum length: 500 characters per comment.</li>
+      <li>Empty comments cannot be submitted.</li>
+      <li>Comments are displayed in chronological order (newest first or oldest first, configurable).</li>
+    </ul>
+
+    <h2>4. API Contracts (Node.js Backend)</h2>
+    <p>The backend exposes REST APIs implemented in Node.js.</p>
+
+    <table class="api-table">
+      <thead>
+        <tr>
+          <th>Method &amp; Path</th>
+          <th>Description</th>
+          <th>Auth Required</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>GET /api/home/summary</code></td>
+          <td>Returns AI Market Summary + top theses for the Home screen.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td><code>GET /api/theses?limit=10</code></td>
+          <td>List of theses, paginated and sorted by relevance/recency.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td><code>GET /api/theses/{id}</code></td>
+          <td>Returns full thesis including content, images, and metadata.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td><code>GET /api/theses/{id}/performance</code></td>
+          <td>Returns performance data for thesis‑linked assets.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td><code>GET /api/theses/{id}/comments</code></td>
+          <td>Fetch list of comments for the thesis.</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td><code>POST /api/theses/{id}/comments</code></td>
+          <td>Create a new comment for the thesis.</td>
+          <td><strong>Yes (JWT)</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>5. Acceptance Criteria</h2>
+
+    <h3>Home Screen</h3>
+    <ul>
+      <li>
+        <strong>Given</strong> all APIs succeed,
+        <strong>then</strong> the screen displays AI summary and list of theses.
+      </li>
+      <li>
+        <strong>Given</strong> any API fails,
+        <strong>then</strong> show an error state with a "Retry" button.
+      </li>
+    </ul>
+
+    <h3>Thesis Detail</h3>
+    <ul>
+      <li>
+        <strong>Given</strong> a valid <code>thesisId</code>,
+        <strong>then</strong> the screen renders full thesis content (text,
+        images, overlay entry points).
+      </li>
+      <li>
+        <strong>When</strong> the user taps "Key Takeaways",
+        <strong>then</strong> the Key Takeaways overlay is displayed above the
+        article.
+      </li>
+      <li>
+        <strong>When</strong> the user taps "Performance" (and data exists),
+        <strong>then</strong> the Performance overlay is displayed.
+      </li>
+      <li>
+        <strong>When</strong> the user posts a comment,
+        <strong>then</strong> it appears at the top of the comments list immediately.
+      </li>
+    </ul>
+
+    <h2>6. Non‑Functional Requirements</h2>
+    <ul>
+      <li><strong>Performance:</strong> Average screen load time &lt; 2 seconds on a typical 4G connection.</li>
+      <li><strong>API Response Time:</strong> Average API response time &lt; 500 ms.</li>
+      <li><strong>Security:</strong> APIs secured with JWT‑based authentication for protected endpoints.</li>
+      <li><strong>Scalability:</strong> Support 10,000+ concurrent users without degradation.</li>
+    </ul>
+
+    <h2>7. User Flow Diagram</h2>
+
+    <div class="diagram-container">
+      <div class="diagram-title">Investment Thesis User Flow</div>
+      
+      <div class="flow-diagram">
+        <!-- Row 1: Home Screen -->
+        <div class="flow-row">
+          <div class="flow-box box-home">
+            <div class="flow-box-title">Home Screen</div>
+            <ul>
+              <li>AI Market Summary</li>
+              <li>Thesis Feed</li>
+              <li>Market Questions</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="arrow-down"></div>
+
+        <!-- Row 2: Thesis List -->
+        <div class="flow-row">
+          <div class="flow-box box-list">
+            <div class="flow-box-title">Thesis List / Recommended Theses</div>
+            <p class="flow-box-subtitle">Curated list based on user interests</p>
+          </div>
+        </div>
+
+        <div class="arrow-down"></div>
+
+        <!-- Row 3: Thesis Detail + Key Takeaways -->
+        <div class="flow-row">
+          <div class="flow-box box-detail" style="position: relative;">
+            <div class="flow-box-title">Thesis Detail View</div>
+            <p class="flow-box-subtitle">(Article + Charts)</p>
+            <div class="arrow-right"></div>
+          </div>
+
+          <div class="flow-box box-takeaways">
+            <div class="flow-box-title">Key Takeaways Overlay</div>
+            <p class="flow-box-subtitle">Core summary &amp; what to watch</p>
+          </div>
+        </div>
+
+        <div class="arrow-down"></div>
+
+        <!-- Row 4: Community + Performance -->
+        <div class="flow-row">
+          <div class="flow-box box-comments">
+            <div class="flow-box-title">Community Q&amp;A / Comments</div>
+            <p class="flow-box-subtitle">Discussion, questions, and answers</p>
+          </div>
+
+          <div class="flow-box box-performance">
+            <div class="flow-box-title">Performance Tracker Overlay</div>
+            <p class="flow-box-subtitle">Asset performance vs. benchmark</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2>8. Summary</h2>
+    <p>
+      This SRS provides a complete specification for building the Investment
+      Thesis &amp; Engagement module. Developers should implement the screens,
+      APIs, and interactions as defined above. The user flow diagram illustrates
+      the navigation structure: users start at the Home screen, browse
+      recommended theses, dive into thesis details, access overlays for
+      takeaways and performance data, and engage in community discussions.
+    </p>
+
+    <p class="small" style="margin-top: 32px; text-align: center;">
+      <strong>Document Generated:</strong> December 24, 2025<br />
+      <strong>Version:</strong> 1.0 (Developer Handoff Ready)
+    </p>
+  </div>
+</body>
+</html>
